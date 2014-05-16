@@ -1,0 +1,28 @@
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="iha.snr11435.stogfinder_11435_11536.app.MainActivity"
+    tools:ignore="MergeRootFrame" /> !-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent" >
+
+<FrameLayout
+    android:id="@+id/buttons_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="false"
+    android:layout_alignParentStart="false" />
+
+<FrameLayout
+    android:id="@+id/list_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_below="@+id/buttons_fragment" />
+
+</RelativeLayout>
