@@ -12,7 +12,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends FragmentActivity implements StationsFragment.OnFragmentInteractionListener{
+import java.util.ArrayList;
+
+public class MainActivity extends FragmentActivity implements StationsFragment.OnFragmentInteractionListener, ButtonsFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,17 @@ public class MainActivity extends FragmentActivity implements StationsFragment.O
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //do something with received intent
+            ArrayList<Stations.StationItem> stations =  intent.getParcelableArrayListExtra(StationService.STOG_STATIONS_TAG);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.list_fragment, new StationsFragment(stations))
+                    .commit();
         }
     };
+
+    @Override
+    public void onUpdateButtonClick() {
+        //Todo: Start the service.
+        Intent serviceIntent = new Intent(this, StationService.class);
+        startService(serviceIntent);
+    }
 }

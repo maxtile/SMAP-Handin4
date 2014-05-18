@@ -2,6 +2,8 @@ package iha.snr11435.stogfinder_11435_11536.app;
 
 import android.app.Service;
 import android.content.Intent;
+import android.nfc.Tag;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -21,10 +23,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StationService extends Service {
-
+    public static final String TAG = "StationService";
     public static final String GET_STOG_STATIONS = "getStogStations";
+    public static final String STOG_STATIONS_TAG = "StogStationsTag";
 
     public StationService() {
     }
@@ -35,7 +40,19 @@ public class StationService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void getStations(){
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getStations();
+            }
+        });
+        thread.start();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void getStations(){
         String result = null;
         URI myURI = null;
 
@@ -74,22 +91,28 @@ public class StationService extends Service {
         JSONObject myJSON = null;
 
         try {
-            myJSON = new JSONObject(result);
-            JSONArray array = myJSON.getJSONArray("items");
+            //myJSON = new JSONObject(result);
+            JSONArray array = new JSONArray(result);
+            ArrayList<Stations.StationItem> stations = new ArrayList();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject stationJSON = array.getJSONObject(i);
 
                 String name = stationJSON.getString("name");
-                //Todo: Create array and intent here.
+                stations.add(new Stations.StationItem(Integer.toString(i), name));
                 Log.d("STOG", name);
 
             }
+            Intent intent = new Intent(GET_STOG_STATIONS);
+            intent.putParcelableArrayListExtra(STOG_STATIONS_TAG, stations);
+            sendBroadcast(intent);
         } catch (JSONException e) {
+            Log.e(TAG, "Something went wrong: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
 
-    public String convertStreamToString(InputStream is) throws IOException {
+    private String convertStreamToString(InputStream is) throws IOException {
         if (is != null) {
             StringBuilder sb = new StringBuilder();
             String line = null;

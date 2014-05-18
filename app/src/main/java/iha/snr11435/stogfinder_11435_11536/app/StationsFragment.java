@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 /**
  * A fragment representing a list of Items.
  * <p />
@@ -23,6 +25,10 @@ public class StationsFragment extends ListFragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public StationsFragment() {
+    }
+
+    public StationsFragment(ArrayList<Stations.StationItem> stations){
+        Stations.LIST = stations;
     }
 
     @Override
