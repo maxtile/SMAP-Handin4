@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class StationsFragment extends ListFragment {
 
     private OnFragmentInteractionListener mListener;
+    public static ArrayAdapter<Stations.StationItem> adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,8 +38,9 @@ public class StationsFragment extends ListFragment {
 
 
         // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<Stations.StationItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, Stations.LIST));
+        adapter = new ArrayAdapter<Stations.StationItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, Stations.LIST);
+        setListAdapter(adapter);
     }
 
 

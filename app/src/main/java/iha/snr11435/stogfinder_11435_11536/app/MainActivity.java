@@ -82,4 +82,10 @@ public class MainActivity extends FragmentActivity implements StationsFragment.O
         Intent serviceIntent = new Intent(this, StationService.class);
         startService(serviceIntent);
     }
+
+    @Override
+    public void onFilterUpdated(CharSequence sequence) {
+        StationsFragment.adapter.getFilter().filter(sequence);
+    }
+
 }

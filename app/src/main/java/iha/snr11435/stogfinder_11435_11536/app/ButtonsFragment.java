@@ -5,10 +5,13 @@ package iha.snr11435.stogfinder_11435_11536.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -19,6 +22,7 @@ public class ButtonsFragment extends Fragment {
 
     private OnFragmentInteractionListener aCallback;
     private Button updateButton;
+    private EditText filterText;
 
     @Override
     public void onDetach() {
@@ -53,10 +57,29 @@ public class ButtonsFragment extends Fragment {
                 aCallback.onUpdateButtonClick();
             }
         });
+        filterText = (EditText)rootView.findViewById(R.id.filterEditText);
+        filterText.addTextChangedListener(filterTextWatcher);
         return rootView;
     }
 
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+
+        public void afterTextChanged(Editable s) {
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+            aCallback.onFilterUpdated(s);
+        }
+
+    };
+
     public interface OnFragmentInteractionListener{
         public void onUpdateButtonClick();
+        public void onFilterUpdated(CharSequence sequence);
     }
 }
